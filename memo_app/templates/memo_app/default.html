@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>안녕!</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/default-style.css' %}">
+</head>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'index' %}">
+          <img alt="logo" src="...">
+        </a>
+        <span>SIMPLE 메모장</span>
+        <a href="{% url 'new_memo' %}">
+          <button type="button" class="btn btn-default navbar-btn">new</button>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <div class="row">
+    {% for memo in memos %}
+    <div class="col-xs-6 col-md-3">
+      {% if memo.priority == True %}
+      <div class="thumbnail priority">
+        <div class="caption">
+          <h4>{{memo.title}}<span>&nbsp;&nbsp;by {{memo.name}}</span><br><span class="date">{{memo.update_date}}</span></h4>
+          <p>{{memo.pk}}</p>
+          <p>{{memo.text}}</p>
+          <p>
+            <a href="{% url 'modify_memo' memokey=memo.pk %}" class="btn btn-primary modify" role="button">수정</a>
+            <a href="{% url 'delete_memo' memokey=memo.pk %}" class="btn btn-default del" role="button" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+          </p>
+        </div>
+      </div>
+      {% else %}
+      <div class="thumbnail">
+        <div class="caption">
+          <h4>{{memo.title}}<span>&nbsp;&nbsp;by {{memo.name}}</span><br><span class="date">{{memo.update_date}}</span></h4>
+          <p>{{memo.text}}</p>
+          <p><a href="#" class="btn btn-primary modify" role="button">수정</a> <a href="/new/" class="btn btn-default del" role="button">삭제</a></p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+<script>
+</script>
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+</body>
+</html>

@@ -20,4 +20,7 @@ from memo_app import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
+    url(r'^new/$', views.post, name='new_memo'),
+    url(r'^(?P<memokey>[0-9]+)/modify/$', views.modify, name='modify_memo'),
+    url(r'^(?P<memokey>[0-9]+)/delete/$', views.delete, name='delete_memo'),
 ]

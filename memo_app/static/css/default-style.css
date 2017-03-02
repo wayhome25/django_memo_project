@@ -1,0 +1,19 @@
+* {
+  font-family: "PT Sans",Helvetica,Arial,sans-serif !important;
+}
+
+.thumbnail .caption{
+  color: #515151;
+}
+
+.priority{
+  border-color: salmon;
+}
+
+h4 > span{
+  font-size: 12px;
+}
+
+.date{
+  font-size: 12px;
+}
