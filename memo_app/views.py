@@ -12,10 +12,10 @@ def index(request):
     if request.method == "POST":
         target = Memos.objects.get(pk = {{memo.pk}}) # 수정필요
         target.delete()
-        memos = Memos.objects.all()
+        memos = Memos.objects.order_by('-update_date')
         return render(request, 'memo_app/default.html', {'memos' : memos})
     else:
-        memos = Memos.objects.all()
+        memos = Memos.objects.order_by('-update_date')
         return render(request, 'memo_app/default.html', {'memos' : memos})
 
 def post(request):
@@ -23,7 +23,8 @@ def post(request):
         #저장
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()
+            memo = form.save(commit = False)
+            memo.generate()
             return redirect('index')
     else:
         #입력

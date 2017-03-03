@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>new memo</title>
+  <title>메모 수정-심플메모</title>
+  <link rel="shortcut icon" href="{% static 'image/logo.png'%}">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/default-style.css' %}">
 </head>
@@ -14,17 +15,71 @@
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="{% url 'index' %}">
-          <img alt="Brand" src="...">
+          <div class="logo-wrap">
+            <img class="logo" alt="logo" src="{% static 'image/logo.png'%}">
+            <h1>SIMPLE 메모장</h1>
+          </div>
+        </a>
+      </div>
+      <div class="new">
+        <a href="{% url 'new_memo' %}">
+          <button type="button" class="btn btn-info navbar-btn">new</button>
         </a>
       </div>
     </div>
   </nav>
-  <form method="POST" class="post-form">
-    {%csrf_token%}
-    {{form.as_ul}}
-    <button type="submit" class="save btn btn-default">저장</button>
-  </form>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-6 col-sm-4 col-md-4 col-xs-offset-3 col-sm-offset-4 col-md-offset-4">
+        <form method="POST" class="post-form">
+          {%csrf_token%}
+          {% for field in form %}
+            {% if field.label == '중요' %}
+              <div class="checkbox">
+                <label>
+                {{field}}{{field.label}}
+                </label>
+              </div>
+            {% elif field.label == '내용' %}
+              <div class="form-group">
+                {{ field.label }}
+                {{field}}
+                <h6 class="pull-right" id="count_message"></h6>
+              </div>
+            {% else %}
+              <div class="form-group">
+                {{ field.label }}
+                {{field}}
+              </div>
+            {% endif %}
+          {% endfor %}
+          <button type="submit" class="save btn btn-success">저장</button>
+        </form>
+      </div>
+    </div>
+  </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-</body>
+<script type="text/javascript">
+// 글자수 세기
+  var text_max = 0;
+  $('#count_message').html(text_max + ' / 180');
 
+  $('#id_text').keyup(function() {
+  var text_length = $('#id_text').val().length;
+  var text_remaining = text_max + text_length;
+
+  $('#count_message').html(text_remaining + ' / 180');
+  });
+
+// 중요 체크박스
+  $('.checkbox').click(function(){
+    if($('#id_priority').is(':checked') == false){
+    $('#id_priority').closest('form').css('border', "1px solid rgb(221, 221, 221)");
+  }else if($('#id_priority').is(':checked') == true){
+    $('#id_priority').closest('form').css('border', "1px solid salmon");
+  }
+  })
+</script>
+</body>
 </html>
