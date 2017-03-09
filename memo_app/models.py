@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Memos(models.Model):
-    name = models.CharField(max_length = 20, db_column='이름')
+    name_id = models.ForeignKey(User, on_delete = models.CASCADE)
     title = models.CharField(max_length = 50, db_column='제목')
     text = models.TextField(max_length = 181, db_column='내용', help_text='메모 내용은 180자 이내로 입력 가능합니다.')
     update_date = models.DateTimeField()
@@ -13,5 +14,6 @@ class Memos(models.Model):
         self.update_date = timezone.now()
         self.save()
 
+
     def __str__(self):
-        return '%s by %s' % (self.title, self.name)
+        return '%s by %s' % (self.title, self.name_id)

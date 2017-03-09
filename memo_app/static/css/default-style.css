@@ -89,6 +89,10 @@ h2 > span{
   font-size: 0.92rem;
 }
 
+.hidden{
+  display: none; 
+}
+
 .edit,
 .delete{
   width: 1rem;

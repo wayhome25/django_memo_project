@@ -17,19 +17,44 @@
         <a class="navbar-brand" href="{% url 'index' %}">
           <div class="logo-wrap">
             <img class="logo" alt="logo" src="{% static 'image/logo.png'%}">
-            <h1>SIMPLE 메모장</h1>
+            <h1>SIMPLE 메모장 {{name}} </h1>
           </div>
+        </a>
+      </div>
+      {% if user.is_authenticated %}
+      <div class="new">
+        <a href="{% url 'logout' %}">
+          <button type="button" class="btn btn-info navbar-btn">로그아웃</button>
         </a>
       </div>
       <div class="new">
         <a href="{% url 'new_memo' %}">
-          <button type="button" class="btn btn-info navbar-btn">new</button>
+          <button type="button" class="btn btn-info navbar-btn">새글</button>
         </a>
       </div>
+      {% else %}
+      <div class="new">
+        <a href="{% url 'login' %}">
+          <button type="button" class="btn btn-info navbar-btn">로그인</button>
+        </a>
+      </div>
+      <div class="new">
+        <a href="{% url 'join' %}">
+          <button type="button" class="btn btn-info navbar-btn">회원가입</button>
+        </a>
+      </div>
+      {% endif %}
       <div class="new">
         <a href="https://github.com/wayhome25" class="git_wrap">
           <img class="git" alt="logo" src="{% static 'image/github.png'%}">
         </a>
+      </div>
+      <div class="new">
+      {% if user.is_authenticated %}
+          <p> <span id="user_name">{{ user.username }}</span> 님 반갑습니다!</p>
+      {% else %}
+          <p>서비스 사용을 위해서 로그인이 필요합니다.</p>
+      {% endif %}
       </div>
     </div>
   </nav>
@@ -41,9 +66,11 @@
         <div class="thumbnail priority">
           <div class="caption">
             <h2>{{memo.title}}
-              <span>&nbsp;&nbsp;by {{memo.name}}</span><br><span class="date">{{memo.update_date}}</span>
-              <a href="{% url 'modify_memo' memokey=memo.pk %}"><img src="{% static 'image/edit.png' %}" class= "edit" alt="수정"></a>
-              <a href="{% url 'delete_memo' memokey=memo.pk %}" onclick="return confirm('정말 삭제하시겠습니까?')"><img src="{% static 'image/delete.png' %}" class="delete" alt="삭제"></a>
+              <span>&nbsp;&nbsp;by <span class= "writer_name">{{memo.name_id}}</span></span><br><span class="date">{{memo.update_date}}</span>
+              <span class="control hidden" id = "control_id{{ forloop.counter }}">
+                <a href="{% url 'modify_memo' memokey=memo.pk %}"><img src="{% static 'image/edit.png' %}" class= "edit" alt="수정"></a>
+                <a href="{% url 'delete_memo' memokey=memo.pk %}" onclick="return confirm('정말 삭제하시겠습니까?')"><img src="{% static 'image/delete.png' %}" class="delete" alt="삭제"></a>
+              </span>
             </h2>
             <p>{{memo.text}}</p>
           </div>
@@ -52,9 +79,11 @@
         <div class="thumbnail">
           <div class="caption">
             <h2>{{memo.title}}
-              <span>&nbsp;&nbsp;by {{memo.name}}</span><br><span class="date">{{memo.update_date}}</span>
+              <span>&nbsp;&nbsp;by <span class = "writer_name">{{memo.name_id}}</span></span><br><span class="date">{{memo.update_date}}</span>
+              <span class="control hidden" id = "control_id{{ forloop.counter }}">
               <a href="{% url 'modify_memo' memokey=memo.pk %}"><img src="{% static 'image/edit.png' %}" class= "edit" alt="수정"></a>
               <a href="{% url 'delete_memo' memokey=memo.pk %}" onclick="return confirm('정말 삭제하시겠습니까?')"><img src="{% static 'image/delete.png' %}" class="delete" alt="삭제"></a>
+              </span>
             </h2>
             <p>{{memo.text}}</p>
           </div>
@@ -66,6 +95,14 @@
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+  <script type="text/javascript">
+    for(i = 0; i < $(".writer_name").length; i++){
+      if($("#user_name").text() == $(".writer_name")[i].innerHTML){
+        var id_number = i + 1
+        $("#control_id"+id_number).removeClass("hidden");
+      }
+    }
+  </script>
 </body>
 
 </html>
