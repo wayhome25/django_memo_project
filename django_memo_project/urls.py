@@ -30,6 +30,5 @@ urlpatterns = [
     url(r'^(?P<memokey>[0-9]+)/modify/$', views.modify, name='modify_memo'),
     url(r'^(?P<memokey>[0-9]+)/delete/$', views.delete, name='delete_memo'),
     url(r'^join/$', views.signup, name='join'),
-    # url(r'^accounts/profile/$', views.login_done, name='login_done'),
-    # url(r'^login/$', views.signin, name='login'),
+    url(r'^like/$', views.like, name='like'), #like 추가
 ]

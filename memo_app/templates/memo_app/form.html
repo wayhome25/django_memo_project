@@ -61,15 +61,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
-// 글자수세기
+// 글자수 세기
   var text_max = 0;
-  $('#count_message').html(text_max + ' / 180');
+  $('#count_message').html(text_max + ' / 230');
 
   $('#id_text').keyup(function() {
   var text_length = $('#id_text').val().length;
   var text_remaining = text_max + text_length;
 
-  $('#count_message').html(text_remaining + ' / 180');
+  $('#count_message').html(text_remaining + ' / 230');
   });
 
 // 중요 체크박스

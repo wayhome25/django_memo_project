@@ -2,15 +2,39 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 # Create your views here.
+try:
+    from django.utils import simplejson as json
+except ImportError:
+    import json
 from .models import Memos
 from .forms import PostForm
 from .forms import UserForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, views
-
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
 
 # from HTMLParser import HTMLParser
+
+@login_required
+@require_POST
+def like(request):
+    if request.method == 'POST':
+        user = request.user
+        memo_id = request.POST.get('pk', None)
+        memo = Memos.objects.get(pk = memo_id)
+
+        if memo.likes.filter(id = user.id).exists():
+            memo.likes.remove(user)
+            message = '좋아요 취소'
+        else:
+            memo.likes.add(user)
+            message = '좋아요!'
+
+    context = {'likes_count' : memo.total_likes, 'message' : message}
+    return HttpResponse(json.dumps(context), content_type='application/json')
+
 
 def index(request):
     if request.method == "POST":

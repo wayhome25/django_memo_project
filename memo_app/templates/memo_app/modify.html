@@ -31,6 +31,33 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-6 col-sm-4 col-md-4 col-xs-offset-3 col-sm-offset-4 col-md-offset-4">
+        {% if memo.priority == True %}
+        <form method="POST" class="post-form priority">
+          {%csrf_token%}
+          {% for field in form %}
+            {% if field.label == '중요' %}
+              <div class="checkbox">
+                <label>
+                {{field}}{{field.label}}
+                </label>
+              </div>
+            {% elif field.label == '내용' %}
+              <div class="form-group">
+                {{ field.label }}
+                {{field}}
+                <h6 class="pull-right" id="count_message"></h6>
+              </div>
+            {% else %}
+              <div class="form-group">
+                {{ field.label }}
+                {{field}}
+              </div>
+            {% endif %}
+          {% endfor %}
+          <button type="submit" class="save btn btn-success">저장</button>
+
+        {% else %}
+
         <form method="POST" class="post-form">
           {%csrf_token%}
           {% for field in form %}
@@ -55,6 +82,7 @@
           {% endfor %}
           <button type="submit" class="save btn btn-success">저장</button>
         </form>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -63,16 +91,17 @@
 <script type="text/javascript">
 // 글자수 세기
   var text_max = 0;
-  $('#count_message').html(text_max + ' / 180');
+  $('#count_message').html(text_max + ' / 230');
 
   $('#id_text').keyup(function() {
   var text_length = $('#id_text').val().length;
   var text_remaining = text_max + text_length;
 
-  $('#count_message').html(text_remaining + ' / 180');
+  $('#count_message').html(text_remaining + ' / 230');
   });
 
 // 중요 체크박스
+
   $('.checkbox').click(function(){
     if($('#id_priority').is(':checked') == false){
     $('#id_priority').closest('form').css('border', "1px solid rgb(221, 221, 221)");

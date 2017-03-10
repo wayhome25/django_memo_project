@@ -10,7 +10,7 @@ class PostForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control',}),
             # 'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'text': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'180자 이내로 입력 가능합니다.'}),
+            'text': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'230자 이내로 입력 가능합니다.'}),
             'priority': forms.CheckboxInput(attrs={'type' : 'checkbox'}),
         }
         labels = {

@@ -65,12 +65,9 @@ body{
   height: 250px;
   background: ;
 }
-.priority{
-  border-color: salmon;
-}
 
 .caption > h2{
-  font-size: 1.307rem;
+  font-size: 1.1rem;
   margin-top: 5px;
   margin-bottom: 20px;
   font-weight: 600 !important;
@@ -81,8 +78,11 @@ h2 > span{
   font-size: 0.92rem;
 }
 
+
 .caption > p{
-  font-size: 1.1rem;
+  height: 170px;
+  font-size: 1rem;
+  color: #595858;
 }
 
 .date{
@@ -90,7 +90,7 @@ h2 > span{
 }
 
 .hidden{
-  display: none; 
+  display: none;
 }
 
 .edit,
@@ -112,6 +112,19 @@ h2 > span{
   width: 650px;
 }
 
+.like_button{
+  float: right;
+  width: 35px;
+  text-align: center;
+}
+
+.like_count{
+  line-height: 1.5rem;
+}
+.like > img{
+  width: 15px;
+}
+
 /*post 화면*/
 .post-form{
   margin-top: 40px;
@@ -123,6 +136,9 @@ h2 > span{
   line-height: 20px;
 }
 
+.priority{
+  border-color: salmon;
+}
 
 
 /*미디어쿼리*/
@@ -138,7 +154,7 @@ h2 > span{
 
 @media (min-width: 992px){
   .container {
-    width: 1100px;
+    width: 1270px;
   }
 
   .container-fluid{
