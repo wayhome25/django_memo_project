@@ -9,10 +9,12 @@ except ImportError:
 from .models import Memos
 from .forms import PostForm
 from .forms import UserForm
+from django.db.models import Count
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, views
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
+
 
 
 # from HTMLParser import HTMLParser
@@ -37,14 +39,14 @@ def like(request):
 
 
 def index(request):
-    if request.method == "POST":
-        target = Memos.objects.get(pk = {{memo.pk}}) # 수정필요
-        target.delete()
-        memos = Memos.objects.order_by('-update_date')
+    sort = request.GET.get('sort','')
+    if sort == 'likes':
+        memos = Memos.objects.annotate(like_count=Count('likes')).order_by('-like_count', '-update_date')
         return render(request, 'memo_app/default.html', {'memos' : memos})
     else:
         memos = Memos.objects.order_by('-update_date')
         return render(request, 'memo_app/default.html', {'memos' : memos})
+
 
 def post(request):
     if request.method == "POST":
@@ -84,6 +86,7 @@ def delete(request, memokey):
     if memo.name_id == User.objects.get(username = request.user.get_username()):
         memo.delete()
         return redirect('index')
+
     else:
         return render(request, 'memo_app/warning.html')
 

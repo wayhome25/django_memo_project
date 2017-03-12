@@ -57,8 +57,19 @@ body{
   margin-right: 15px;
 }
 
+#sort-select{
+  height: 2rem;
+  width: 80px;
+  margin-bottom: 10px;
+  border: none;
+  background-color: salmon;
+  color: #ffffff;
+}
+
+
 .thumbnail .caption{
   color: #595858;
+
 }
 
 .thumbnail{
@@ -120,6 +131,10 @@ h2 > span{
 
 .like_count{
   line-height: 1.5rem;
+}
+
+.like{
+  cursor: pointer;
 }
 .like > img{
   width: 15px;

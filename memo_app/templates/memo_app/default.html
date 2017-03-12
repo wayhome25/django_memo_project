@@ -59,6 +59,12 @@
     </div>
   </nav>
   <div class="container">
+    <!-- <a id="sort_by_like" class="sort" href="/?sort=likes" >좋아요순</a>
+    <a id="sort_by_date" class="sort" href="/">최신순</a> -->
+    <select id="sort-select" onchange="location = this.value;">
+     <option class="sort-date" value="/">최신순</option>
+     <option class="sort-likes" value="?sort=likes">좋아요순</option>
+    </select>
     <div class="row">
       {% for memo in memos %}
       <div class="col-xs-6 col-sm-4 col-md-3">
@@ -130,7 +136,7 @@
   // 좋아요 버튼 처리
   // 버튼 클릭 > ajax통신 (like url로 전달) > views의 like 메소드에서 리턴하는 값 전달받기 > 성공시 콜백 호출
   $('.like').click(function(){
-    var pk = $(this).attr('id') // 클릭한 요소의 attribute 중 name의 값을 가져온다.
+    var pk = $(this).attr('id') // 클릭한 요소의 attribute 중 id 값을 가져온다.
     $.ajax({
         type: "POST", // 데이터를 전송하는 방법을 지정한다.
         url: "{% url 'like' %}", // 통신할 url을 지정한다.
@@ -159,6 +165,33 @@
         }
     });
   })
+
+// get url query string
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+// 정렬방식 셀렉트 박스 유지
+$(document).ready(function(){
+  var sort = getUrlParameter('sort');
+  if(sort == 'likes'){
+    $('.sort-likes').prop('selected', 'selected')
+  }else{
+    $('.sort-date').prop('selected', 'selected')
+
+  }
+});
+
   </script>
 </body>
 
