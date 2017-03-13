@@ -17,7 +17,7 @@
         <a class="navbar-brand" href="{% url 'index' %}">
           <div class="logo-wrap">
             <img class="logo" alt="logo" src="{% static 'image/logo.png'%}">
-            <h1>SIMPLE 메모장 {{name}} </h1>
+            <h1>책갈피</h1>
           </div>
         </a>
       </div>
@@ -64,7 +64,12 @@
     <select id="sort-select" onchange="location = this.value;">
      <option class="sort-date" value="/">최신순</option>
      <option class="sort-likes" value="?sort=likes">좋아요순</option>
+     {% if user.is_authenticated %}
+     <option class="sort-mypost" value="?sort=mypost">내가쓴글</option>
+     {% endif %}
+
     </select>
+
     <div class="row">
       {% for memo in memos %}
       <div class="col-xs-6 col-sm-4 col-md-3">
@@ -186,9 +191,10 @@ $(document).ready(function(){
   var sort = getUrlParameter('sort');
   if(sort == 'likes'){
     $('.sort-likes').prop('selected', 'selected')
+  }else if(sort == 'mypost'){
+    $('.sort-mypost').prop('selected', 'selected')
   }else{
     $('.sort-date').prop('selected', 'selected')
-
   }
 });
 

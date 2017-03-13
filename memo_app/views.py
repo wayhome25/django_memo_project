@@ -42,10 +42,14 @@ def index(request):
     sort = request.GET.get('sort','')
     if sort == 'likes':
         memos = Memos.objects.annotate(like_count=Count('likes')).order_by('-like_count', '-update_date')
-        return render(request, 'memo_app/default.html', {'memos' : memos})
+        return render(request, 'memo_app/index.html', {'memos' : memos})
+    elif sort == 'mypost':
+        user = request.user
+        memos = Memos.objects.filter(name_id = user).order_by('-update_date') #복수를 가져올수 있음
+        return render(request, 'memo_app/index.html', {'memos' : memos})
     else:
         memos = Memos.objects.order_by('-update_date')
-        return render(request, 'memo_app/default.html', {'memos' : memos})
+        return render(request, 'memo_app/index.html', {'memos' : memos})
 
 
 def post(request):
@@ -90,20 +94,20 @@ def delete(request, memokey):
     else:
         return render(request, 'memo_app/warning.html')
 
-def signin(request):
-    if request.method == "POST":
-        form = LoginForm(request.POST)
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username = username, password = password)
-        if user is not None:
-            login(request, user)
-            return redirect('index')
-        else:
-            return HttpResponse('로그인 실패. 다시 시도 해보세요.')
-    else:
-        form = LoginForm()
-        return render(request, 'memo_app/login.html', {'form': form})
+# def signin(request):
+#     if request.method == "POST":
+#         form = LoginForm(request.POST)
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(username = username, password = password)
+#         if user is not None:
+#             login(request, user)
+#             return redirect('index')
+#         else:
+#             return HttpResponse('로그인 실패. 다시 시도 해보세요.')
+#     else:
+#         form = LoginForm()
+#         return render(request, 'memo_app/login.html', {'form': form})
 
 def signup(request):
     if request.method == "POST":

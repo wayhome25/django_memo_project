@@ -54,6 +54,9 @@
             {% endif %}
           {% endfor %}
           <button type="submit" class="save btn btn-success">저장</button>
+          <a href="{% url 'index' %}">
+            <button type="button" class="btn btn-danger">취소</button>
+          </a>
         </form>
       </div>
     </div>

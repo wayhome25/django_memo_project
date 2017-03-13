@@ -22,7 +22,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'next_page' : '/'}),
-    url(r'^login/$', auth_views.login),
+    url(r'^login/$', auth_views.login,  {'template_name':'memo_app/login.html'}),
     url('^', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
