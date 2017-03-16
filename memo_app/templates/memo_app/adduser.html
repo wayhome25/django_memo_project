@@ -29,28 +29,15 @@
           {%csrf_token%}
           <h2 class="sub-title"> 회원가입 </h2>
           {% for field in form %}
-            {% if field.label == '닉네임' %}
               <div class="form-group">
                 {{ field.label }}
                 {{field}}
               </div>
-            {% elif field.label == '이메일' %}
-              <div class="form-group">
-                {{ field.label }}
-                {{field}}
-              </div>
-            {% else %}
-              <div class="form-group">
-                {{ field.label }}
-                {{field}}
-              </div>
-            {% endif %}
           {% endfor %}
           <button type="submit" class="save btn btn-success">회원가입</button>
           <a href="{% url 'index' %}">
             <button type="button" class="btn btn-danger">취소</button>
           </a>
-
         </form>
       </div>
     </div>

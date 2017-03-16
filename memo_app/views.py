@@ -11,7 +11,7 @@ from .forms import PostForm
 from .forms import UserForm
 from django.db.models import Count
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate, views
+from django.contrib.auth import login, views
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
@@ -51,7 +51,7 @@ def index(request):
         memos = Memos.objects.order_by('-update_date')
         return render(request, 'memo_app/index.html', {'memos' : memos})
 
-
+# 글 입력 및 저장
 def post(request):
     if request.method == "POST":
         #저장
@@ -66,6 +66,7 @@ def post(request):
         form = PostForm()
         return render(request, 'memo_app/form.html',{'form': form})
 
+# 글 수정 및 저장
 def modify(request, memokey):
     if request.method == "POST":
         #수정 저장
@@ -84,7 +85,7 @@ def modify(request, memokey):
         else:
             return render(request, 'memo_app/warning.html')
 
-
+# 글 삭제
 def delete(request, memokey):
     memo = Memos.objects.get(pk = memokey)
     if memo.name_id == User.objects.get(username = request.user.get_username()):
@@ -94,21 +95,7 @@ def delete(request, memokey):
     else:
         return render(request, 'memo_app/warning.html')
 
-# def signin(request):
-#     if request.method == "POST":
-#         form = LoginForm(request.POST)
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(username = username, password = password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect('index')
-#         else:
-#             return HttpResponse('로그인 실패. 다시 시도 해보세요.')
-#     else:
-#         form = LoginForm()
-#         return render(request, 'memo_app/login.html', {'form': form})
-
+# 회원가입
 def signup(request):
     if request.method == "POST":
         form = UserForm(request.POST)

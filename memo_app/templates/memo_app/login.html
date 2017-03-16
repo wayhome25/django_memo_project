@@ -30,6 +30,17 @@
         <form method="post" action="{% url 'login' %}" class="sign-in-form">
           {%csrf_token%}
           <h2 class="sub-title"> 로그인 </h2>
+          {% if form.errors %}
+          <p>Your username and password didn't match. Please try again.</p>
+          {% endif %}
+          {% if next %}
+              {% if user.is_authenticated %}
+              <p>Your account doesn't have access to this page. To proceed,
+              please login with an account that has access.</p>
+              {% else %}
+              <p>Please login to see this page.</p>
+              {% endif %}
+          {% endif %}
           <div class="form-group">
             <label for="{{ form.username.id_for_label }}">닉네임</label>
             <input class="form-control" id="{{ form.username.id_for_label }}" maxlength="15" name="{{ form.username.html_name }}" type="text" />
@@ -42,7 +53,7 @@
           <a href="{% url 'index' %}">
             <button type="button" class="btn btn-danger">취소</button>
           </a>
-
+          <input type="hidden" name="next" value="{{ next }}" />
         </form>
       </div>
     </div>
@@ -53,38 +64,3 @@
 </body>
 </html>
 {% endblock container %}
-
-
-
-
-<!-- <h2>야호 로그인</h2>
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
-
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
- -->
